@@ -31,6 +31,9 @@ export class Server {
     this.app.set('view engine', 'pug');
     this.app.set('views', './views');
 
+    //public
+    this.app.use(express.static('public'));
+
     this.app.listen(this.port, () => {
       console.log(`Server is running on port ${this.port}`)
     })

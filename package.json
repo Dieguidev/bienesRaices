@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsnd --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js"
+    "start": "npm run build && node dist/app.js",
+    "css": "postcss public/css/tailwind.css -o public/css/app.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -16,13 +17,18 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "env-var": "^7.5.0",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "pug": "^3.0.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.2",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
     "rimraf": "^5.0.7",
+    "tailwindcss": "^3.4.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   }
