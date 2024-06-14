@@ -1,5 +1,7 @@
+import { PrismaClient } from '@prisma/client';
 import express, { Router } from 'express'
-import { db } from '../db/db';
+
+const prisma = new PrismaClient()
 
 interface Options {
   port?: number;
@@ -28,12 +30,16 @@ export class Server {
     //rutas
     this.app.use(this.routes);
 
+
     try {
-      await db.authenticate()
+      // Intentar conectar
+      await prisma.$connect();
       console.log('Connection has been established successfully.');
     } catch (error) {
-      console.log(error);
-
+      console.error('Unable to connect to the database:', error);
+    } finally {
+      // Asegurarse de desconectar correctamente
+      await prisma.$disconnect();
     }
 
     //PUG

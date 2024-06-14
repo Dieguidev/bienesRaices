@@ -1,21 +1,48 @@
 
+
 import { Request, Response } from "express"
-// import { AuthRepository, CustomError, DeleteUser, GetAndDeleteUserDto, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto, UpdateUser, UpdateUserDto } from "../../domain"
-// import { JwtAdapter } from "../../config/jwt";
-// import { UserModel } from "../../data/mongodb";
+import { CustomError, RegisterUserDto } from '../../domain';
+import { AuthService } from "./auth.service";
 
-export class AuthController{
 
-  formLogin = (req: Request, res: Response)=>{
+export class AuthController {
+
+  // DI
+  constructor(
+    public readonly authService: AuthService
+  ) { }
+
+
+  private handleError = (error: any, res: Response) => {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message })
+    }
+
+    console.log(`${error}`);
+
+    return res.status(500).json({ error: 'Internal Server Error' })
+  }
+
+
+  formLogin = (req: Request, res: Response) => {
     res.render('auth/login', {
       page: 'Iniciar Sesión'
     })
   }
 
-  formRegister = (req: Request, res: Response)=>{
+  formRegister = (req: Request, res: Response) => {
     res.render('auth/register', {
       page: 'Crear cuenta'
     })
+  }
+
+  registerUser = async (req: Request, res: Response) => {
+    const [error, registerUserDto] = RegisterUserDto.create(req.body)
+    if (error) return res.status(400).json({ error })
+
+      this.authService.registerUser(registerUserDto!)
+      .then((user) => res.json(user))
+      .catch((error) => this.handleError(error, res));
   }
 
 
@@ -67,35 +94,35 @@ export class AuthController{
 //   }
 
 
-  // updateUser = (req: Request, res: Response) => {
-  //   const [error, updateUserDto] = UpdateUserDto.create(req.body)
-  //   if (error) return res.status(400).json({ error })
+// updateUser = (req: Request, res: Response) => {
+//   const [error, updateUserDto] = UpdateUserDto.create(req.body)
+//   if (error) return res.status(400).json({ error })
 
-  //   console.log(updateUserDto);
+//   console.log(updateUserDto);
 
-  //   new UpdateUser(this.authRepository)
-  //     .execute(updateUserDto!)
-  //     .then(user => res.json(user))
-  //     .catch(error => this.handleError(error, res));
-  // }
+//   new UpdateUser(this.authRepository)
+//     .execute(updateUserDto!)
+//     .then(user => res.json(user))
+//     .catch(error => this.handleError(error, res));
+// }
 
 
-  // deleteUser = (req: Request, res: Response) => {
-  //   const { id } = req.params
-  //   const [error, getAndDeleteUserDto] = GetAndDeleteUserDto.create({ id })
-  //   if (error) return res.status(400).json({ error })
+// deleteUser = (req: Request, res: Response) => {
+//   const { id } = req.params
+//   const [error, getAndDeleteUserDto] = GetAndDeleteUserDto.create({ id })
+//   if (error) return res.status(400).json({ error })
 
-  //   new DeleteUser(this.authRepository)
-  //     .execute(getAndDeleteUserDto!)
-  //     .then(user => res.json(user))
-  //     .catch(error => this.handleError(error, res));
-  // }
+//   new DeleteUser(this.authRepository)
+//     .execute(getAndDeleteUserDto!)
+//     .then(user => res.json(user))
+//     .catch(error => this.handleError(error, res));
+// }
 
-  // getUsers = (req: Request, res: Response) => {
-  //   UserModel.find()
-  //     .then(users => res.json({
-  //       user: req.body.user
-  //     }))
-  //     .catch(error => this.handleError(error, res))
-  // }
+// getUsers = (req: Request, res: Response) => {
+//   UserModel.find()
+//     .then(users => res.json({
+//       user: req.body.user
+//     }))
+//     .catch(error => this.handleError(error, res))
+// }
 // }

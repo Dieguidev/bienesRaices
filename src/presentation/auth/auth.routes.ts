@@ -6,6 +6,7 @@ import { Router } from "express";
 import { AuthController } from "./auth.controller";
 // import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infrastructure";
 // import { AuthMiddleware } from "../middlewares/auth.middleware";
+import { AuthService } from './auth.service';
 
 
 
@@ -19,10 +20,14 @@ export class AuthRoutes {
     // const authRepository = new AuthRepositoryImpl(database)
 
     // const controller = new AuthController(authRepository);
-    const controller = new AuthController();
+    const authService = new AuthService();
+    const controller = new AuthController(authService);
 
     router.get('/login', controller.formLogin)
+
     router.get('/register', controller.formRegister)
+    router.post('/register', controller.registerUser)
+
     router.get('/forgot-password', controller.forgotMyPasswordForm)
 
     // router.post('/login', controller.loginUser)
