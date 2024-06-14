@@ -5,14 +5,23 @@ import { Request, Response } from "express"
 // import { UserModel } from "../../data/mongodb";
 
 export class AuthController{
+
   formLogin = (req: Request, res: Response)=>{
     res.render('auth/login', {
-
+      page: 'Iniciar Sesión'
     })
   }
+
   formRegister = (req: Request, res: Response)=>{
     res.render('auth/register', {
       page: 'Crear cuenta'
+    })
+  }
+
+
+  forgotMyPasswordForm = (req: Request, res: Response) => {
+    res.render('auth/forgot-password', {
+      page: 'Recuperar cuenta'
     })
   }
 }
