@@ -1,4 +1,5 @@
 import express, { Router } from 'express'
+import { db } from '../db/db';
 
 interface Options {
   port?: number;
@@ -26,6 +27,14 @@ export class Server {
 
     //rutas
     this.app.use(this.routes);
+
+    try {
+      await db.authenticate()
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.log(error);
+
+    }
 
     //PUG
     this.app.set('view engine', 'pug');
