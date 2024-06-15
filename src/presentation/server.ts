@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import express, { Router } from 'express'
+import cookieParser from 'cookie-parser'
+import csrf from 'csurf'
 
 const prisma = new PrismaClient()
 
@@ -26,6 +28,12 @@ export class Server {
     //middlewares
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+
+    //habilita CookieParser
+    this.app.use(cookieParser())
+
+    //Habilita CSRF
+    this.app.use(csrf({cookie: true}))
 
     //rutas
     this.app.use(this.routes);

@@ -7,6 +7,8 @@ import { AuthController } from "./auth.controller";
 // import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infrastructure";
 // import { AuthMiddleware } from "../middlewares/auth.middleware";
 import { AuthService } from './auth.service';
+import { envs } from "../../config";
+import { EmailService } from "./email.service";
 
 
 
@@ -16,11 +18,18 @@ export class AuthRoutes {
   static get routes(): Router {
     const router = Router();
 
+    const emailService = new EmailService(
+      envs.MAILER_SERVICE,
+      envs.MAILER_EMAIL,
+      envs.MAILER_SECRET_KEY,
+      envs.SEND_EMAIL,
+    );
+
     // const database = new AuthDatasourceImpl();
     // const authRepository = new AuthRepositoryImpl(database)
 
     // const controller = new AuthController(authRepository);
-    const authService = new AuthService();
+    const authService = new AuthService(emailService);
     const controller = new AuthController(authService);
 
     router.get('/login', controller.formLogin)
@@ -29,6 +38,7 @@ export class AuthRoutes {
     router.post('/register', controller.registerUser)
 
     router.get('/forgot-password', controller.forgotMyPasswordForm)
+    router.get('/validate-email/:token', controller.validateEmail );
 
     // router.post('/login', controller.loginUser)
     // router.post('/register', controller.registerUser)

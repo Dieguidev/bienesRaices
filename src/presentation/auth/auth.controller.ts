@@ -17,7 +17,6 @@ export class AuthController {
     if (error instanceof CustomError) {
       return res.status(error.statusCode).json({ error: error.message })
     }
-
     console.log(`${error}`);
 
     return res.status(500).json({ error: 'Internal Server Error' })
@@ -32,17 +31,42 @@ export class AuthController {
 
   formRegister = (req: Request, res: Response) => {
     res.render('auth/register', {
-      page: 'Crear cuenta'
+      page: 'Crear cuenta',
+      csrfToken: req.csrfToken()
     })
   }
 
   registerUser = async (req: Request, res: Response) => {
     const [error, registerUserDto] = RegisterUserDto.create(req.body)
-    if (error) return res.status(400).json({ error })
+    if (error) {
+      return res.render('auth/register', {
+        page: 'Crear cuenta',
+        errores: error,
+        user: {
+          name: req.body.name,
+          email: req.body.email,
+        }
+      })
+    }
 
-      this.authService.registerUser(registerUserDto!)
-      .then((user) => res.json(user))
-      .catch((error) => this.handleError(error, res));
+    this.authService.registerUser(registerUserDto!)
+      .then((user) => {
+        return res.render('templates/message', {
+          page: 'Cuenta creada',
+          message: 'Hemos enviado un correo de verificación a tu cuenta de correo'
+        })
+      })
+      .catch(error => {
+        // this.handleError(error, res)
+        return res.render('auth/register', {
+          page: 'Crear cuenta',
+          errores: [error.message],
+          user: {
+            name: req.body.name,
+            email: req.body.email,
+          }
+        })
+      });
   }
 
 
@@ -50,6 +74,21 @@ export class AuthController {
     res.render('auth/forgot-password', {
       page: 'Recuperar cuenta'
     })
+  }
+
+  validateEmail = (req: Request, res: Response) => {
+    const { token } = req.params;
+
+    this.authService.validateEmail(token)
+      .then(() => res.render('auth/confirm-acount', {
+        page: 'Cuenta creada correctamente',
+        message: 'La cuenta se confirmó correctamente',
+      }))
+      .catch((error) => res.render('auth/confirm-acount', {
+        page: 'Error al confirmar tu cuenta',
+        message: 'Hubo un error al confirmar tu cuenta, por favor intentalo de nuevo mas tarde',
+        error: true
+      }));
   }
 }
 

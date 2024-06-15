@@ -1,3 +1,4 @@
+import { error } from "console";
 import { regularExps } from "../../../config/regular-exp";
 
 
@@ -12,21 +13,21 @@ export class RegisterUserDto {
     public readonly password: string,
   ) { }
 
-  static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
+  static create(object: { [key: string]: any }): [string[]?, RegisterUserDto?] {
     const { name, email, password, confirmPassword } = object;
 
+    const errors: string[] = [];
 
-
-    if (!email) return ['Missing email'];
-    if (!name) return ['Missing nameee'];
+    if (!email) errors.push('Missing email');
+    if (!name) errors.push('Missing name');
     //evalua que sea un correo valido
-    if (!regularExps.email.test(email)) return ['Invalid email'];
-    if (!password) return ['Missing password'];
-    if (password.length < 6) return ['Password must be at least 6 characters'];
-    if (!confirmPassword) return ['Missing confirm password'];
-    if (confirmPassword.length < 6) return ['Password must be at least 6 characters'];
+    if (email && !regularExps.email.test(email)) errors.push('Invalid email');
+    if (!password) errors.push('Missing password');
+    if (password && password.length < 6) errors.push('Password must be at least 6 characters');
+    if (!confirmPassword) errors.push('Missing confirm password');
+    if (password !== confirmPassword) errors.push('Passwords do not match');
 
-    if (password !== confirmPassword) return ['Passwords do not match'];
+    if (errors.length > 0) return [errors];
 
     return [undefined, new RegisterUserDto(name, email, password)];
   }
