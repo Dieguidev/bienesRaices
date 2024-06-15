@@ -41,6 +41,7 @@ export class AuthController {
     if (error) {
       return res.render('auth/register', {
         page: 'Crear cuenta',
+        csrfToken: req.csrfToken(),
         errores: error,
         user: {
           name: req.body.name,
@@ -60,6 +61,7 @@ export class AuthController {
         // this.handleError(error, res)
         return res.render('auth/register', {
           page: 'Crear cuenta',
+          csrfToken: req.csrfToken(),
           errores: [error.message],
           user: {
             name: req.body.name,
