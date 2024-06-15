@@ -37,8 +37,12 @@ export class AuthRoutes {
     router.get('/register', controller.formRegister)
     router.post('/register', controller.registerUser)
 
-    router.get('/forgot-password', controller.forgotMyPasswordForm)
     router.get('/validate-email/:token', controller.validateEmail );
+
+    router.get('/forgot-password', controller.forgotMyPasswordForm)
+    router.post('/forgot-password', controller.resetPassword)
+    router.get('/reset-password/:token', controller.validateToken)
+    router.post('/reset-password/:token', controller.updatePassword)
 
     // router.post('/login', controller.loginUser)
     // router.post('/register', controller.registerUser)
