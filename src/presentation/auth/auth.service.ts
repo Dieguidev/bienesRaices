@@ -1,11 +1,11 @@
 import { BcryptAdapter, envs } from "../../config";
 import { JwtAdapter } from "../../config/jwt";
-
-import { CustomError, RegisterUserDto, EmailForResetPasswordUserDto } from "../../domain";
-
-
-
 import { PrismaClient } from "@prisma/client";
+
+import { CustomError, RegisterUserDto, EmailForResetPasswordUserDto, LoginUserDto } from "../../domain";
+
+
+
 import { EmailService } from "./email.service";
 import { ResetPasswordDto } from "../../domain/dto/auth/reset-password.dto";
 
@@ -24,6 +24,25 @@ export class AuthService {
       throw CustomError.internalServer('Error generating token')
     }
     return token
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const { email, password } = loginUserDto
+
+    const user = await prisma.user.findUnique({ where: { email } })
+    if (!user) throw CustomError.badRequest('User not found')
+
+    const isPasswordValid = BcryptAdapter.compare(password, user.password)
+    if (!isPasswordValid) throw CustomError.badRequest('Invalid password')
+
+    if (!user.confirm) throw CustomError.badRequest('User not confirmed')
+
+    const token = await this.generateTokenService(user.id)
+
+    return {
+      user,
+      token
+    }
   }
 
 
