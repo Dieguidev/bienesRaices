@@ -1,0 +1,50 @@
+extends ../layout/index
+
+block contenido
+  div.py-10
+    h1.text-4xl.my-10.font-extrabold.text-center Bienes
+      span.font-normal Raices
+    h2.text-center.text-2xl.font-extrabold=page
+
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
+      form.space-y-8
+        .space-y-5
+          h3.text-lg.leading-6.font-medium.text-gray-900 Información General
+          p.text-gray-600 Añade Información sobre la propiedad en venta
+
+          div
+            label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='title') Título del anuncio
+            input#title.w-full.px-3.py-2.border.border-gray-300.rouded-mdplaceholder-gray-400(placeholder='Título Propiedad, ej: Casa en la Playa' type='text' name='title')
+
+          div(class="md:flex md:gap-4 space-y-5 md:space-y-0")
+            div(class="md:w-1/2")
+              label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='category') Categoria
+              select#category.w-full.px-3.py-2.border.border-gray-300.rouded-mdplaceholder-gray-400(name='category')
+                option(value="") - Seleccione -
+            div(class="md:w-1/2")
+              label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='price') Precio
+              select#price.w-full.px-3.py-2.border.border-gray-300.rouded-mdplaceholder-gray-400(name='price')
+                option(value="") - Seleccione -
+
+          div(class="md:flex md:gap-4 space-y-5 md:space-y-0")
+            div(class="md:w-1/3")
+              label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='bedrooms') Habitaciones
+              select#bedrooms.w-full.px-3.py-2.border.border-gray-300.rouded-mdplaceholder-gray-400(name='bedrooms')
+                option(value="") - Seleccione -
+                - let n = 1;
+                  while n < 5
+                    option(value=n) #{n++}
+            div(class="md:w-1/3")
+              label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='parking') Estacionamiento
+              select#parking.w-full.px-3.py-2.border.border-gray-300.rouded-mdplaceholder-gray-400(name='parking')
+                option(value="") - Seleccione -
+                - let m = 1;
+                  while m < 4
+                    option(value=m) #{m++}
+            div(class="md:w-1/3")
+              label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='wc') WC
+              select#wc.w-full.px-3.py-2.border.border-gray-300.rouded-mdplaceholder-gray-400(name='wc')
+                option(value="") - Seleccione -
+                - let i = 1;
+                  while i < 5
+                    option(value=i) #{i++}
