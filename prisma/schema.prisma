@@ -28,3 +28,42 @@ model User {
   @@index([status])
   @@map("users")
 }
+
+model Property {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  bedrooms    Int
+  parking     Int
+  bathroom    Int
+  street      String
+  lat         String
+  lng         String
+  img         String
+  publicated  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("properties")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Price {
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("prices")
+}
