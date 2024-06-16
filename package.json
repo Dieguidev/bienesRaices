@@ -10,7 +10,8 @@
     "start": "npm run build && node dist/app.js",
     "css": "postcss public/css/tailwind.css -o public/css/app.css --watch",
     "js": "webpack --watch",
-    "concurrently": "concurrently \"npm run css\" \"npm run js\""
+    "concurrently": "concurrently \"npm run css\" \"npm run js\"",
+    "seed": "ts-node-dev ./src/data/seeders/index.ts"
   },
   "keywords": [],
   "author": "",
