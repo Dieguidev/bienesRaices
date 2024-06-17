@@ -1,3 +1,5 @@
+import { BcryptAdapter } from "../../config"
+
 export const categories = [
   {
     name: 'Casa'
@@ -37,7 +39,7 @@ export const categories = [
 
 export const prices = [
   {
-      nombre: '0 - $10,000 USD',
+      nombre: '$0 - $10,000 USD',
   },
   {
       nombre: '$10,000 - $30,000 USD',
@@ -64,6 +66,16 @@ export const prices = [
       nombre: '$300,000 - $500,000 USD',
   },
   {
-      nombre: '+ $500,000 USD',
+      nombre: '$500,000 USD +',
+  }
+]
+
+export const users = [
+  {
+    name: 'Juan',
+    email: 'diegogaraycullas@gmail.com',
+    confirm: true,
+    password: BcryptAdapter.hash('123456'),
+
   }
 ]

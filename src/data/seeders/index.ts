@@ -1,6 +1,6 @@
 
 import { prisma } from "..";
-import { categories, prices } from "./data";
+import { categories, prices, users } from "./data";
 
 
 
@@ -17,8 +17,10 @@ async function main() {
 
   //eliminar todo de la base de datos - warning
   await Promise.all([
+    prisma.property.deleteMany(),
     prisma.category.deleteMany(),
-    prisma.price.deleteMany()
+    prisma.price.deleteMany(),
+    prisma.user.deleteMany(),
   ])
 
   //crear roles del seed.ts
@@ -67,9 +69,15 @@ async function main() {
     data: pricesData,
   });
 
-  // await prisma.user.createMany({
-  //   data: usersData,
-  // });
+  const usersData = await Promise.all(users.map(async user => {
+    return {
+      ...user
+    }
+  }))
+
+  await prisma.user.createMany({
+    data: usersData,
+  });
 
 
   // //crear productos del seed.ts

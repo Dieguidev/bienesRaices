@@ -22,8 +22,9 @@ model User {
   confirm  Boolean @default(false)
   status   Boolean @default(true)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Property  Property[]
 
   @@index([status])
   @@map("users")
@@ -42,6 +43,13 @@ model Property {
   img         String
   publicated  Boolean @default(false)
 
+  price      Price    @relation(fields: [priceId], references: [id])
+  priceId    String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -52,8 +60,9 @@ model Category {
   id   String @id @default(uuid())
   name String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Property  Property[]
 
   @@map("categories")
 }
@@ -62,8 +71,9 @@ model Price {
   id   String @id @default(uuid())
   name String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Property  Property[]
 
   @@map("prices")
 }

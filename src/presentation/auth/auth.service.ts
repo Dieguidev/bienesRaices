@@ -1,6 +1,6 @@
 import { BcryptAdapter, envs } from "../../config";
 import { JwtAdapter } from "../../config/jwt";
-import { PrismaClient } from "@prisma/client";
+
 
 import { CustomError, RegisterUserDto, EmailForResetPasswordUserDto, LoginUserDto } from "../../domain";
 
@@ -8,9 +8,10 @@ import { CustomError, RegisterUserDto, EmailForResetPasswordUserDto, LoginUserDt
 
 import { EmailService } from "./email.service";
 import { ResetPasswordDto } from "../../domain/dto/auth/reset-password.dto";
+import { prisma } from "../../data";
 
 
-const prisma = new PrismaClient();
+
 export class AuthService {
 
   constructor(

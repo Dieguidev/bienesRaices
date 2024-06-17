@@ -10,8 +10,9 @@ export class PropertiesRoutes {
     const propertiesService = new PropertiesService()
     const controller = new PropertiesController(propertiesService)
 
-    router.get('/my-properties', controller.admin)
-    router.get('/create', controller.create)
+    router.get('/my-properties', controller.adminView)
+    router.get('/create', controller.createForm)
+    router.post('/create', controller.create)
 
     return router;
   }
