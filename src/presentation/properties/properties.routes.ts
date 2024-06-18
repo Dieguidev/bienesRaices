@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { PropertiesService } from "./properties.service";
 import { PropertiesController } from "./properties.controller";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
 
 
 export class PropertiesRoutes {
@@ -10,9 +11,9 @@ export class PropertiesRoutes {
     const propertiesService = new PropertiesService()
     const controller = new PropertiesController(propertiesService)
 
-    router.get('/my-properties', controller.adminView)
-    router.get('/create', controller.createForm)
-    router.post('/create', controller.create)
+    router.get('/my-properties', [AuthMiddleware.validateJWT], controller.adminView)
+    router.get('/create', [AuthMiddleware.validateJWT], controller.createForm)
+    router.post('/create', [AuthMiddleware.validateJWT], controller.create)
 
     return router;
   }

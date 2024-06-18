@@ -40,10 +40,8 @@ export class AuthService {
 
     const token = await this.generateTokenService(user.id)
 
-    return {
-      user,
-      token
-    }
+    return token;
+
   }
 
 

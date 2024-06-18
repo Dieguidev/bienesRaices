@@ -24,23 +24,22 @@ export class PropertiesService {
     }
   }
 
-  async create(createPropertyDto: CreatePropertyDto) {
+  async create(createPropertyDto: CreatePropertyDto, userId: string) {
     const { wc: bathroom, category: categoryId, price: priceId,  ...rest } = createPropertyDto;
     try {
       const property = await prisma.property.create({
         data: {
           ...rest,
           bathroom,
-          img: 'fsdfsd',
+          img: '',
           categoryId,
           priceId,
-          userId: '7921708e-1aeb-4e60-8061-44a15ea9662e'
+          userId
         }
       })
 
-      return {
-        property
-      }
+      return property;
+
     } catch (error) {
       throw CustomError.internalServer(`${error}`)
     }

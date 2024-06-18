@@ -46,7 +46,7 @@ export class AuthController {
         httpOnly: true,
         // secure: true,
         // sameSite: true
-      }).redirect('/mis-propiedades'))
+      }).redirect('/api/properties/my-properties'))
       .catch((error) =>
         res.render('auth/login', {
           page: 'Iniciar sesion',

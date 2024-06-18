@@ -49,9 +49,9 @@ export class PropertiesController {
           return res.status(500).send('Server error');
         });
     }
-    this.propertiesService.create(createPropertyDto!)
-      .then(() => {
-        res.redirect('/my-properties')
+    this.propertiesService.create(createPropertyDto!, req.body.user.id)
+      .then((property) => {
+        res.redirect(`api/properties/add-image/${property.id}`)
       })
   }
 }
