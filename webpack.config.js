@@ -9,6 +9,7 @@ module.exports = {
   },
   entry: {
     mapa: "./js/mapa.js",
+    addImage: "./js/addImage.js",
   },
   output: {
     filename: "[name].js",

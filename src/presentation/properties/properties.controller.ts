@@ -52,11 +52,24 @@ export class PropertiesController {
       })
   }
 
-  addImageForm= (req: Request, res: Response) => {
+  addImageForm = (req: Request, res: Response) => {
+    const { id: idProperty } = req.params;
+    const { id: userId } = req.body.user;
 
-    res.render('properties/add-image', {
-      page: 'Agregar Imagen',
-      csrfToken: req.csrfToken(),
-    })
+    this.propertiesService.addImageForm(idProperty, userId)
+      .then(property => {
+        res.render('properties/add-image', {
+          page: `Agregar Imagen: ${property.title}`,
+          property,
+          csrfToken: req.csrfToken(),
+        })
+      })
+      .catch(err => {
+        res.redirect('/api/properties/my-properties')
+      })
+  }
+
+  addImage = (req: Request, res: Response) => {
+
   }
 }

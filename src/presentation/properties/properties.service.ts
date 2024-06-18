@@ -44,4 +44,21 @@ export class PropertiesService {
       throw CustomError.internalServer(`${error}`)
     }
   }
+
+  async addImageForm(idProperty: string, userId: string) {
+    const propertyExits = await prisma.property.findUnique({
+      where: {
+        id: idProperty
+      }
+    })
+    if (!propertyExits) {
+      throw CustomError.notFound('Property not found')
+    }
+    if(propertyExits.publicated) throw CustomError.notFound('Property publicated')
+    if(propertyExits.userId !== userId) throw CustomError.notFound('Property not found')
+
+
+
+    return propertyExits
+  }
 }
