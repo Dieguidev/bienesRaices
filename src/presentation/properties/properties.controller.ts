@@ -11,7 +11,6 @@ export class PropertiesController {
   adminView = (req: Request, res: Response) => {
     res.render('properties/admin', {
       page: 'Mis propiedades',
-      navbar: true,
     })
   }
 
@@ -20,7 +19,6 @@ export class PropertiesController {
       .then(({ categories, prices }) => {
         res.render('properties/create', {
           page: 'Crear Propiedad',
-          navbar: true,
           csrfToken: req.csrfToken(),
           categories,
           prices,
@@ -36,7 +34,6 @@ export class PropertiesController {
         .then(({ categories, prices }) => {
           return res.render('properties/create', {
             page: 'Crear Propiedad',
-            navbar: true,
             csrfToken: req.csrfToken(),
             categories,
             prices,
@@ -53,5 +50,13 @@ export class PropertiesController {
       .then((property) => {
         res.redirect(`api/properties/add-image/${property.id}`)
       })
+  }
+
+  addImageForm= (req: Request, res: Response) => {
+
+    res.render('properties/add-image', {
+      page: 'Agregar Imagen',
+      csrfToken: req.csrfToken(),
+    })
   }
 }

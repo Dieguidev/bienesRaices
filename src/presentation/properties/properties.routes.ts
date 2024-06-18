@@ -14,6 +14,7 @@ export class PropertiesRoutes {
     router.get('/my-properties', [AuthMiddleware.validateJWT], controller.adminView)
     router.get('/create', [AuthMiddleware.validateJWT], controller.createForm)
     router.post('/create', [AuthMiddleware.validateJWT], controller.create)
+    router.get('/add-image/:id', [AuthMiddleware.validateJWT], controller.addImageForm)
 
     return router;
   }
